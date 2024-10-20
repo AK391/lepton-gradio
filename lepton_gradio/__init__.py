@@ -1,24 +1,31 @@
 import os
-import anthropic
 import gradio as gr
 from typing import Callable
+import openai
 
 __version__ = "0.0.1"
 
 
 def get_fn(model_name: str, preprocess: Callable, postprocess: Callable, api_key: str):
+    client = openai.OpenAI(
+        base_url=f"https://{model_name}.lepton.run/api/v1/",
+        api_key=api_key
+    )
+    
     def fn(message, history):
         inputs = preprocess(message, history)
-        client = anthropic.Anthropic(api_key=api_key)
-        with client.messages.stream(
+        stream = client.chat.completions.create(
             model=model_name,
+            messages=inputs["messages"],
             max_tokens=1000,
-            messages=inputs["messages"]
-        ) as stream:
-            response_text = ""
-            for chunk in stream:
-                if chunk.type == "content_block_delta":
-                    delta = chunk.delta.text
+            stream=True
+        )
+        
+        response_text = ""
+        for chunk in stream:
+            if chunk.choices:
+                delta = chunk.choices[0].delta.content
+                if delta:
                     response_text += delta
                     yield postprocess(response_text)
 
@@ -53,15 +60,15 @@ def get_pipeline(model_name):
 
 def registry(name: str, token: str | None = None, **kwargs):
     """
-    Create a Gradio Interface for a model on Anthropic.
+    Create a Gradio Interface for a model on Lepton AI.
 
     Parameters:
-        - name (str): The name of the Anthropic model.
-        - token (str, optional): The API key for Anthropic.
+        - name (str): The name of the Lepton AI model.
+        - token (str, optional): The API key for Lepton AI.
     """
-    api_key = token or os.environ.get("ANTHROPIC_API_KEY")
+    api_key = token or os.environ.get("LEPTON_API_TOKEN")
     if not api_key:
-        raise ValueError("ANTHROPIC_API_KEY environment variable is not set.")
+        raise ValueError("LEPTON_API_TOKEN environment variable is not set.")
 
     pipeline = get_pipeline(name)
     inputs, outputs, preprocess, postprocess = get_interface_args(pipeline)

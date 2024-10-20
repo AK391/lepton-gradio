@@ -1,7 +1,7 @@
 import gradio as gr
-import anthropic_gradio
+import lepton_gradio
 
 gr.load(
-    name='claude-3-opus-20240229',
-    src=anthropic_gradio.registry,
+    name='llama3-1-405b',
+    src=lepton_gradio.registry,
 ).launch()

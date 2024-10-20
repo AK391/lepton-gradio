@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "anthropic-gradio"
+name = "lepton-gradio"
 version = "0.1.0"
-description = "A Python package for creating Gradio applications with Anthropic models"
+description = "A Python package for creating Gradio applications with Lepton AI models"
 authors = [
     { name = "Your Name", email = "your.email@example.com" }
 ]
@@ -18,16 +18,16 @@ classifiers = [
 ]
 dependencies = [
     "gradio>=5.0.2",
-    "anthropic",
+    "leptonai",
+    "openai"
 ]
 
 [project.urls]
-homepage = "https://github.com/your-username/anthropic-gradio"
-repository = "https://github.com/your-username/anthropic-gradio"
+homepage = "https://github.com/your-username/lepton-gradio"
+repository = "https://github.com/your-username/lepton-gradio"
 
 [project.optional-dependencies]
 dev = ["pytest"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["anthropic_gradio"]
-
+packages = ["lepton_gradio"]

@@ -1,10 +1,10 @@
 import gradio as gr
-import anthropic_gradio
+import lepton_gradio
 
 gr.load(
-    name='claude-3-opus-20240229',
-    src=anthropic_gradio.registry,
-    title='Anthropic-Gradio Integration',
-    description="Chat with Claude 3 Opus model.",
+    name='llama3-1-405b',
+    src=lepton_gradio.registry,
+    title='Lepton-Gradio Integration',
+    description="Chat with Llama 3.1 405B model.",
     examples=["Explain quantum gravity to a 5-year old.", "How many R are there in the word Strawberry?"]
 ).launch()

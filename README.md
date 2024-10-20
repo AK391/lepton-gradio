@@ -19,7 +19,7 @@ That's it!
 Just like if you were to use the `leptonai` API, you should first save your Lepton AI API key to this environment variable:
 
 ```
-export LEPTONAI_API_KEY=<your token>
+export LEPTON_API_TOKEN=<your token>
 ```
 
 Then in a Python file, write:
@@ -89,5 +89,5 @@ Note: if you are getting an authentication error, then the Lepton AI API Client 
 ```py
 import os
 
-os.environ["LEPTONAI_API_KEY"] = ...
+os.environ["LEPTON_API_TOKEN"] = ...
 ```
